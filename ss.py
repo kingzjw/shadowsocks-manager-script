@@ -60,7 +60,7 @@ def changePasswordByPort(path, port, password):
     passwordDict[uport] = uPassword;
     print("update:  port "+uport+" ,  password "+uPassword)
     saveF = open(path, "w")
-    json.dump(load_dict, saveF ,indent=0)
+    json.dump(load_dict, saveF ,sort_keys = True, indent=0)
     print("save success")
 
     return
@@ -86,7 +86,7 @@ def deleteUser(path, port):
 
     print("delete: port " + uport)
     saveF = open(path, "w")
-    json.dump(load_dict, saveF,indent=0)
+    json.dump(load_dict, saveF,sort_keys = True, indent=0)
     print("save success")
     return
 
