@@ -3,6 +3,8 @@ import random
 import string
 import json
 import argparse
+import time
+import os
 '''
 usage:
 python ss.py -m del  -f ./ss.json -pt 1112
@@ -14,7 +16,7 @@ python ss.py -m add -f ./ss.json -pt 1111 -p test
 
 parser = argparse.ArgumentParser()
 #提供的功能
-parser.add_argument("-m","--mode", required=True, choices=["add", "update","del","show","clearall","randadd"], help="support function")
+parser.add_argument("-m","--mode", required=True, choices=["add", "update","del","show","clearall","randadd","backup"], help="support function")
 #指定修改的配置的json文件
 parser.add_argument("-f","--filePath", type=str, default="/etc/shadowsocks/config.json", help="the ss json file path")
 #账户所用的端口
@@ -166,6 +168,28 @@ def generate_activation_code(len=16, n=200):
     chars = string.ascii_letters + string.digits
     return [''.join([random.choice(chars) for _ in range(len)]) for _ in range(n)]
 
+'''备份指定文件'''
+def backupConfig(path):
+    if os.path.isfile(path):  # 判断该路径的是否是文件
+        # 截取文件名，重组文件名
+        seek_num = path.rfind('.')
+        str = time.strftime("_%Y_%m_%d", time.localtime())
+        new_file_name = path[:seek_num] + '_backup'+str + path[seek_num:]
+        # 打开源文件
+        old_file = open(path, 'rb')
+        # 读取文件信息
+        old_file_content = old_file.read()
+        # 创建新文件
+        new_file = open(new_file_name, 'wb')
+        # 将原始文件信息写入
+        new_file.write(old_file_content)
+        # 关闭文件
+        old_file.close()
+        new_file.close()
+        print "backup the file to "+ new_file_name
+    else:
+        print('there is no such file')
+    return
 
 if a.mode == "add":
     addPortPassword(a.filePath, a.port, a.password);
@@ -179,3 +203,5 @@ elif a.mode == "clearall":
     clearALL(path = a.filePath)
 elif a.mode == "randadd":
     addAccoutByNumRandomPassword(path=a.filePath,startPort=a.port,num=a.num)
+elif a.mode == "backup":
+    backupConfig(path=a.filePath)
