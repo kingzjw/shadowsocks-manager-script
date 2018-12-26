@@ -11,7 +11,7 @@ import json
 import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument("-m","--mode", required=True, choices=["add", "update","del"])
-parser.add_argument("-f","--filePath", type=str, default="/etc/shadowsocks.json", required=True, help="the ss json file path")
+parser.add_argument("-f","--filePath", type=str, default="/etc/shadowsocks/config.json", help="the ss json file path")
 parser.add_argument("-pt","--port",  required=True, type=int,help="port for all mode")
 parser.add_argument("-p","--password", type=str, help="port's password for mode of add or update")
 a = parser.parse_args()
