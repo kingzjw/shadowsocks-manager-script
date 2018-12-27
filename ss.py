@@ -22,19 +22,24 @@ parser.add_argument("-f","--filePath", type=str, default="/etc/shadowsocks/confi
 #账户所用的端口
 parser.add_argument("-pt","--port", type=int,help="port for all mode")
 #账户所用的密码
-parser.add_argument("-p","--password", type=str, help="port's password for mode of add or update")
+parser.add_argument("-p","--password", type=str, default="test",help="port's password for mode of add or update")
 parser.add_argument("-n","--num", type=int, default=1, help="num of the accout for show or add")
 a = parser.parse_args()
 
-'''添加新账户：端口和密码'''
+'''添加新账户：端口和密码。 可以不提供密码，系统会生成密码'''
 #path: ss.json的路径和文件名字
 #port : int
 #password: string
-def addPortPassword(path, port, password):
+def addPortPassword(path, port, password="test"):
     load_f = open(path, 'r')
     load_dict = json.load(load_f)
     passwordDict = load_dict[u'port_password']
     uport = unicode(str(port), "utf-8")
+
+    if(password=="test"):
+        passwordList = generate_activation_code(len=8, n=1)
+        password = passwordList[0]
+
     uPassword = unicode(password, "utf-8")
 
     # judege port
@@ -52,11 +57,15 @@ def addPortPassword(path, port, password):
 
     return
 
-'''修改指定账户的密码：已知端口的密码'''
-def changePasswordByPort(path, port, password):
+'''修改指定账户的密码：已知端口的密码。可以不提供密码，系统会生成密码'''
+def changePasswordByPort(path, port, password="test"):
     load_f = open(path, 'r')
     load_dict = json.load(load_f)
     passwordDict = load_dict[u'port_password']
+
+    if (password == "test"):
+        passwordList = generate_activation_code(len=8, n=1)
+        password = passwordList[0]
 
     uport = unicode(str(port), "utf-8")
     uPassword = unicode(password, "utf-8")
@@ -105,6 +114,7 @@ def showUser(path, port, num=1):
     load_dict = json.load(load_f)
     passwordDict = load_dict[u'port_password']
 
+    num = max(num, len(passwordDict))
     print("showing...")
     for i in range(num):
         t = port + i
