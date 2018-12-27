@@ -114,7 +114,7 @@ def showUser(path, port, num=1):
     load_dict = json.load(load_f)
     passwordDict = load_dict[u'port_password']
 
-    num = max(num, len(passwordDict))
+    num = min(num, len(passwordDict))
     print("showing...")
     for i in range(num):
         t = port + i
