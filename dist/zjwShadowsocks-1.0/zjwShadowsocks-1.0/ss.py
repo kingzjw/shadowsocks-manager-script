@@ -16,7 +16,7 @@ python ss.py -m add -f ./ss.json -pt 1111 -p test
 
 parser = argparse.ArgumentParser()
 #提供的功能
-parser.add_argument("-m","--mode", required=True, choices=["add", "update","del","show","clearall","randadd","backup","replace"], help="support function(replace: pt and n(new pt))")
+parser.add_argument("-m","--mode", required=True, choices=["add", "update","del","show","clearall","randadd","backup"], help="support function")
 #指定修改的配置的json文件
 parser.add_argument("-f","--filePath", type=str, default="/etc/shadowsocks/config.json", help="the ss json file path")
 #账户所用的端口
@@ -205,10 +205,6 @@ if a.mode == "add":
     addPortPassword(a.filePath, a.port, a.password);
 elif a.mode == "update":
     changePasswordByPort(a.filePath, a.port, a.password);
-elif a.mode == "replace":
-    '''删除指定端口，并根据 -n中的值，创建新的端口对应的账户'''
-    deleteUser(a.filePath, a.port);
-    addPortPassword(a.filePath, a.n, a.password);
 elif a.mode == "del":
     deleteUser(a.filePath, a.port);
 elif a.mode == "show":
