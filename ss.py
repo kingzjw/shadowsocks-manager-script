@@ -13,7 +13,6 @@ python ss.py -m add -f ./ss.json -pt 1111 -p test
 修改好之后，别忘记重启
 '''
 
-
 parser = argparse.ArgumentParser()
 #提供的功能
 parser.add_argument("-m","--mode", required=True, choices=["add", "update","del","show","clearall","randadd","backup","replace"], help="support function(replace: pt and n(new pt))")
@@ -208,7 +207,7 @@ elif a.mode == "update":
 elif a.mode == "replace":
     '''删除指定端口，并根据 -n中的值，创建新的端口对应的账户'''
     deleteUser(a.filePath, a.port);
-    addPortPassword(a.filePath, a.n, a.password);
+    addPortPassword(a.filePath, a.num, a.password);
 elif a.mode == "del":
     deleteUser(a.filePath, a.port);
 elif a.mode == "show":
