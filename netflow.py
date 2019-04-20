@@ -36,7 +36,7 @@ def addPortByJsonPath(path):
     str2 ="iptables -A OUTPUT -p tcp --sport "
 
     for i in range( len(keys)):
-        key = keys[0]
+        key = keys[i]
         os.system(str1 + key)
         os.system(str2 + key)
         print("add port for flow : ",key)
@@ -55,7 +55,7 @@ def removeALL(path):
     str2 = "iptables -D OUTPUT -p tcp --sport "
 
     for i in range(len(keys)):
-        key = keys[0]
+        key = keys[i]
         os.system(str1 + key)
         os.system(str2 + key)
         print("remove port for flow : ", key)
@@ -67,8 +67,8 @@ def removeALL(path):
 def addPort(port):
     str1 ="iptables -A INPUT  -p tcp --sport "
     str2 ="iptables -A OUTPUT -p tcp --sport "
-    os.system(str1 + port)
-    os.system(str2 + port)
+    os.system(str1 + str(port))
+    os.system(str2 + str(port))
     print("add port for flow : ",port)
     print("finish")
     return
@@ -77,9 +77,8 @@ def addPort(port):
 def removePort(port):
     str1 = "iptables -D INPUT  -p tcp --sport "
     str2 = "iptables -D OUTPUT -p tcp --sport "
-    key = keys[0]
-    os.system(str1 + port)
-    os.system(str2 + port)
+    os.system(str1 + str(port))
+    os.system(str2 + str(port))
     print("remove port for flow : ", port)
     print("finish")
     return
@@ -125,7 +124,7 @@ def reset():
 
 if a.mode == "show":
     show()
-elif a.mode =="addall"
+elif a.mode =="addall":
     assert a.filePath
     addPortByJsonPath(a.filePath)
 elif a.mode == "add":
